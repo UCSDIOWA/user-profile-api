@@ -46,9 +46,9 @@ func main() {
 
 func (s *server) CreatePsssword(ctx context.Context, crPsswdReq *pb.CreatePasswordRequest) (*pb.CreatePasswordResponse, error) {
 	err := DB.Operation.updateOne(
-		{ email : crPsswdReq->email },
+		{ email : crPsswdReq.GetEmail() },
 		{
-			$set: { password: crPsswdReq->password }
+			$set: { password: crPsswdReq.GetPassword() }
 		}
 	)
 	if err != nil {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package user-profile;
+//package user-profile;
 
 import "google/api/annotations.proto";
 
