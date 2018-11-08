@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package user-profile;
+
+import "google/api/annotations.proto";
+
+service CreatePassword {
+    rpc CreatePassword (CreatePasswordRequest) returns (CreatePasswordResponse) {
+        option (google.api.http) = {
+            post: "/createpassword"
+            body: "*"
+        };
+    }
+}
+
+message CreatePasswordRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message CreatePasswordResponse {
+    bool success = 1;
+}
