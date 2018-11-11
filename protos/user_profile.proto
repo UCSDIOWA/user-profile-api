@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-//package user-profile;
+package user_profile;
 
 import "google/api/annotations.proto";
 
-service CreatePassword {
+service UserProfileAPI {
     rpc CreatePassword (CreatePasswordRequest) returns (CreatePasswordResponse) {
         option (google.api.http) = {
             post: "/createpassword"

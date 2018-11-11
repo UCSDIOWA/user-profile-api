@@ -7,6 +7,7 @@ import (
 
 	pb "github.com/UCSDIOWA/user-profile-api/protos"
 	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	"google.golang.org/grpc"
 )
 
@@ -38,22 +39,18 @@ func main() {
 	log.Println("Hosting server on", listen.Addr().String())
 
 	s := grpc.NewServer()
-	pb.RegisterCreatePasswordServer(s, &server{})
+	pb.RegisterUserProfileAPIServer(s, &server{})
 	if err := s.Serve(listen); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
 }
 
-func (s *server) CreatePsssword(ctx context.Context, crPsswdReq *pb.CreatePasswordRequest) (*pb.CreatePasswordResponse, error) {
-	err := DB.Operation.updateOne(
-		{ email : crPsswdReq.GetEmail() },
-		{
-			$set: { password: crPsswdReq.GetPassword() }
-		}
-	)
+func (s *server) CreatePassword(ctx context.Context, crPsswdReq *pb.CreatePasswordRequest) (*pb.CreatePasswordResponse, error) {
+	err := DB.Operation.Update(
+		bson.M{"email": (*crPsswdReq).Email},
+		bson.M{"$set": bson.M{"password": (*crPsswdReq).Password}})
 	if err != nil {
 		return &pb.CreatePasswordResponse{Success: false}, err
 	}
-
-	return &pb.SignUpResponse{Success: true}, nil
+	return &pb.CreatePasswordResponse{Success: true}, nil
 }
