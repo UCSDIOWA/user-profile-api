@@ -11,6 +11,13 @@ service UserProfileAPI {
             body: "*"
         };
     }
+
+    rpc UserProfile (UserProfileRequest) returns (UserProfileResponse) {
+        option (google.api.http) = {
+            post: "/userprofile"
+            body: "*"
+        };
+    }
 }
 
 message CreatePasswordRequest {
@@ -20,4 +27,23 @@ message CreatePasswordRequest {
 
 message CreatePasswordResponse {
     bool success = 1;
+}
+
+message UserProfileRequest {
+    string email = 1;
+}
+
+message UserProfileResponse {
+    bool success = 1;
+    string email = 2;
+    string password = 3;
+    string firstName = 4;
+    string lastName = 5;
+    message SecretCode {
+        string value = 1;
+        bool sent = 2;
+    }
+    message Projects {
+        repeated string project_ids = 1;
+    }
 }
