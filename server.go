@@ -23,7 +23,10 @@ type mongo struct {
 }
 
 // DB is a pointer to mongo struct
-var DB *mongo
+var (
+	DB           *mongo
+	echoEndpoint = flag.String("echo_endpoint", "localhost:50052", "endpoint of user-profile-api")
+)
 
 func main() {
 	errors := make(chan error)
@@ -47,7 +50,7 @@ func main() {
 
 func startGRPC() error {
 	// Host mongo server
-	m, err := mgo.Dial("mongodb://tea:cse110IOWA@ds159263.mlab.com:59263/tea")
+	m, err := mgo.Dial("127.0.0.1:27017")
 	if err != nil {
 		log.Fatalf("Could not connect to the MongoDB server: %v", err)
 	}
