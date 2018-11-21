@@ -22,6 +22,14 @@ type mongo struct {
 	Operation *mgo.Collection
 }
 
+type getUserProfileResponseStruct struct {
+	ProfileImage       string   `json:"profile_image" bson:"profile_image"`
+	ProfileDescription string   `json:"profile_description" bson:"profile_description"`
+	Endorsements       []string `json:"endorsements" bson:"endorsements"`
+	CurrentProjects    []string `json:"current_projects" bson:"current_projects"`
+	PreviousProjects   []string `json:"previous_projects" bson:"previous_projects"`
+}
+
 // DB is a pointer to mongo struct
 var (
 	DB           *mongo
@@ -99,10 +107,16 @@ func startHTTP() error {
 
 func (s *server) GetUserProfile(ctx context.Context, request *pb.GetUserProfileRequest) (*pb.GetUserProfileResponse, error) {
 	var response pb.GetUserProfileResponse
-	err := DB.Operation.Find(bson.M{"email": request.Email}).One(&response)
+	var responseStruct getUserProfileResponseStruct
+	err := DB.Operation.Find(bson.M{"email": request.Email}).One(&responseStruct)
 	if err != nil {
 		return nil, err
 	}
+	response.ProfileImage = responseStruct.ProfileImage
+	response.ProfileDescription = responseStruct.ProfileDescription
+	response.Endorsements = responseStruct.Endorsements
+	response.CurrentProjects = responseStruct.CurrentProjects
+	response.PreviousProjects = responseStruct.PreviousProjects
 
 	return &response, nil
 }
@@ -113,9 +127,7 @@ func (s *server) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserPr
 
 	err := DB.Operation.Update(find, update)
 	if err != nil {
-		var result pb.UpdateUserProfileResponse
-		result.Success = true
-		return &result, nil
+		return &pb.UpdateUserProfileResponse{Success: false}, nil
 	}
 
 	return &pb.UpdateUserProfileResponse{Success: true}, nil
