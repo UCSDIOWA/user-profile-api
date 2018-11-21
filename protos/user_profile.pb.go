@@ -4,9 +4,9 @@
 package user_profile
 
 import (
-	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	context "golang.org/x/net/context"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	math "math"
@@ -23,325 +23,261 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type CreatePasswordRequest struct {
+type GetUserProfileRequest struct {
 	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreatePasswordRequest) Reset()         { *m = CreatePasswordRequest{} }
-func (m *CreatePasswordRequest) String() string { return proto.CompactTextString(m) }
-func (*CreatePasswordRequest) ProtoMessage()    {}
-func (*CreatePasswordRequest) Descriptor() ([]byte, []int) {
+func (m *GetUserProfileRequest) Reset()         { *m = GetUserProfileRequest{} }
+func (m *GetUserProfileRequest) String() string { return proto.CompactTextString(m) }
+func (*GetUserProfileRequest) ProtoMessage()    {}
+func (*GetUserProfileRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ef67784dca69381c, []int{0}
 }
 
-func (m *CreatePasswordRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreatePasswordRequest.Unmarshal(m, b)
+func (m *GetUserProfileRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetUserProfileRequest.Unmarshal(m, b)
 }
-func (m *CreatePasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreatePasswordRequest.Marshal(b, m, deterministic)
+func (m *GetUserProfileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetUserProfileRequest.Marshal(b, m, deterministic)
 }
-func (m *CreatePasswordRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreatePasswordRequest.Merge(m, src)
+func (m *GetUserProfileRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUserProfileRequest.Merge(m, src)
 }
-func (m *CreatePasswordRequest) XXX_Size() int {
-	return xxx_messageInfo_CreatePasswordRequest.Size(m)
+func (m *GetUserProfileRequest) XXX_Size() int {
+	return xxx_messageInfo_GetUserProfileRequest.Size(m)
 }
-func (m *CreatePasswordRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreatePasswordRequest.DiscardUnknown(m)
+func (m *GetUserProfileRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUserProfileRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreatePasswordRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetUserProfileRequest proto.InternalMessageInfo
 
-func (m *CreatePasswordRequest) GetEmail() string {
+func (m *GetUserProfileRequest) GetEmail() string {
 	if m != nil {
 		return m.Email
 	}
 	return ""
 }
 
-func (m *CreatePasswordRequest) GetPassword() string {
-	if m != nil {
-		return m.Password
-	}
-	return ""
-}
-
-type CreatePasswordResponse struct {
-	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+type GetUserProfileResponse struct {
+	ProfileImage         string   `protobuf:"bytes,1,opt,name=profile_image,json=profileImage,proto3" json:"profile_image,omitempty"`
+	ProfileDescription   string   `protobuf:"bytes,2,opt,name=profile_description,json=profileDescription,proto3" json:"profile_description,omitempty"`
+	Endorsements         []string `protobuf:"bytes,3,rep,name=endorsements,proto3" json:"endorsements,omitempty"`
+	CurrentProjects      []string `protobuf:"bytes,4,rep,name=current_projects,json=currentProjects,proto3" json:"current_projects,omitempty"`
+	PreviousProjects     []string `protobuf:"bytes,5,rep,name=previous_projects,json=previousProjects,proto3" json:"previous_projects,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreatePasswordResponse) Reset()         { *m = CreatePasswordResponse{} }
-func (m *CreatePasswordResponse) String() string { return proto.CompactTextString(m) }
-func (*CreatePasswordResponse) ProtoMessage()    {}
-func (*CreatePasswordResponse) Descriptor() ([]byte, []int) {
+func (m *GetUserProfileResponse) Reset()         { *m = GetUserProfileResponse{} }
+func (m *GetUserProfileResponse) String() string { return proto.CompactTextString(m) }
+func (*GetUserProfileResponse) ProtoMessage()    {}
+func (*GetUserProfileResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ef67784dca69381c, []int{1}
 }
 
-func (m *CreatePasswordResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreatePasswordResponse.Unmarshal(m, b)
+func (m *GetUserProfileResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetUserProfileResponse.Unmarshal(m, b)
 }
-func (m *CreatePasswordResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreatePasswordResponse.Marshal(b, m, deterministic)
+func (m *GetUserProfileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetUserProfileResponse.Marshal(b, m, deterministic)
 }
-func (m *CreatePasswordResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreatePasswordResponse.Merge(m, src)
+func (m *GetUserProfileResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUserProfileResponse.Merge(m, src)
 }
-func (m *CreatePasswordResponse) XXX_Size() int {
-	return xxx_messageInfo_CreatePasswordResponse.Size(m)
+func (m *GetUserProfileResponse) XXX_Size() int {
+	return xxx_messageInfo_GetUserProfileResponse.Size(m)
 }
-func (m *CreatePasswordResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreatePasswordResponse.DiscardUnknown(m)
+func (m *GetUserProfileResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUserProfileResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreatePasswordResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetUserProfileResponse proto.InternalMessageInfo
 
-func (m *CreatePasswordResponse) GetSuccess() bool {
+func (m *GetUserProfileResponse) GetProfileImage() string {
 	if m != nil {
-		return m.Success
-	}
-	return false
-}
-
-type UserProfileRequest struct {
-	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserProfileRequest) Reset()         { *m = UserProfileRequest{} }
-func (m *UserProfileRequest) String() string { return proto.CompactTextString(m) }
-func (*UserProfileRequest) ProtoMessage()    {}
-func (*UserProfileRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ef67784dca69381c, []int{2}
-}
-
-func (m *UserProfileRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserProfileRequest.Unmarshal(m, b)
-}
-func (m *UserProfileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserProfileRequest.Marshal(b, m, deterministic)
-}
-func (m *UserProfileRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserProfileRequest.Merge(m, src)
-}
-func (m *UserProfileRequest) XXX_Size() int {
-	return xxx_messageInfo_UserProfileRequest.Size(m)
-}
-func (m *UserProfileRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserProfileRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserProfileRequest proto.InternalMessageInfo
-
-func (m *UserProfileRequest) GetEmail() string {
-	if m != nil {
-		return m.Email
+		return m.ProfileImage
 	}
 	return ""
 }
 
-type UserProfileResponse struct {
-	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Email                string   `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Password             string   `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	FirstName            string   `protobuf:"bytes,4,opt,name=firstName,proto3" json:"firstName,omitempty"`
-	LastName             string   `protobuf:"bytes,5,opt,name=lastName,proto3" json:"lastName,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserProfileResponse) Reset()         { *m = UserProfileResponse{} }
-func (m *UserProfileResponse) String() string { return proto.CompactTextString(m) }
-func (*UserProfileResponse) ProtoMessage()    {}
-func (*UserProfileResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ef67784dca69381c, []int{3}
-}
-
-func (m *UserProfileResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserProfileResponse.Unmarshal(m, b)
-}
-func (m *UserProfileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserProfileResponse.Marshal(b, m, deterministic)
-}
-func (m *UserProfileResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserProfileResponse.Merge(m, src)
-}
-func (m *UserProfileResponse) XXX_Size() int {
-	return xxx_messageInfo_UserProfileResponse.Size(m)
-}
-func (m *UserProfileResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserProfileResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserProfileResponse proto.InternalMessageInfo
-
-func (m *UserProfileResponse) GetSuccess() bool {
+func (m *GetUserProfileResponse) GetProfileDescription() string {
 	if m != nil {
-		return m.Success
-	}
-	return false
-}
-
-func (m *UserProfileResponse) GetEmail() string {
-	if m != nil {
-		return m.Email
+		return m.ProfileDescription
 	}
 	return ""
 }
 
-func (m *UserProfileResponse) GetPassword() string {
+func (m *GetUserProfileResponse) GetEndorsements() []string {
 	if m != nil {
-		return m.Password
-	}
-	return ""
-}
-
-func (m *UserProfileResponse) GetFirstName() string {
-	if m != nil {
-		return m.FirstName
-	}
-	return ""
-}
-
-func (m *UserProfileResponse) GetLastName() string {
-	if m != nil {
-		return m.LastName
-	}
-	return ""
-}
-
-type UserProfileResponse_SecretCode struct {
-	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	Sent                 bool     `protobuf:"varint,2,opt,name=sent,proto3" json:"sent,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserProfileResponse_SecretCode) Reset()         { *m = UserProfileResponse_SecretCode{} }
-func (m *UserProfileResponse_SecretCode) String() string { return proto.CompactTextString(m) }
-func (*UserProfileResponse_SecretCode) ProtoMessage()    {}
-func (*UserProfileResponse_SecretCode) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ef67784dca69381c, []int{3, 0}
-}
-
-func (m *UserProfileResponse_SecretCode) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserProfileResponse_SecretCode.Unmarshal(m, b)
-}
-func (m *UserProfileResponse_SecretCode) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserProfileResponse_SecretCode.Marshal(b, m, deterministic)
-}
-func (m *UserProfileResponse_SecretCode) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserProfileResponse_SecretCode.Merge(m, src)
-}
-func (m *UserProfileResponse_SecretCode) XXX_Size() int {
-	return xxx_messageInfo_UserProfileResponse_SecretCode.Size(m)
-}
-func (m *UserProfileResponse_SecretCode) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserProfileResponse_SecretCode.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserProfileResponse_SecretCode proto.InternalMessageInfo
-
-func (m *UserProfileResponse_SecretCode) GetValue() string {
-	if m != nil {
-		return m.Value
-	}
-	return ""
-}
-
-func (m *UserProfileResponse_SecretCode) GetSent() bool {
-	if m != nil {
-		return m.Sent
-	}
-	return false
-}
-
-type UserProfileResponse_Projects struct {
-	ProjectIds           []string `protobuf:"bytes,1,rep,name=project_ids,json=projectIds,proto3" json:"project_ids,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserProfileResponse_Projects) Reset()         { *m = UserProfileResponse_Projects{} }
-func (m *UserProfileResponse_Projects) String() string { return proto.CompactTextString(m) }
-func (*UserProfileResponse_Projects) ProtoMessage()    {}
-func (*UserProfileResponse_Projects) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ef67784dca69381c, []int{3, 1}
-}
-
-func (m *UserProfileResponse_Projects) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserProfileResponse_Projects.Unmarshal(m, b)
-}
-func (m *UserProfileResponse_Projects) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserProfileResponse_Projects.Marshal(b, m, deterministic)
-}
-func (m *UserProfileResponse_Projects) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserProfileResponse_Projects.Merge(m, src)
-}
-func (m *UserProfileResponse_Projects) XXX_Size() int {
-	return xxx_messageInfo_UserProfileResponse_Projects.Size(m)
-}
-func (m *UserProfileResponse_Projects) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserProfileResponse_Projects.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserProfileResponse_Projects proto.InternalMessageInfo
-
-func (m *UserProfileResponse_Projects) GetProjectIds() []string {
-	if m != nil {
-		return m.ProjectIds
+		return m.Endorsements
 	}
 	return nil
 }
 
+func (m *GetUserProfileResponse) GetCurrentProjects() []string {
+	if m != nil {
+		return m.CurrentProjects
+	}
+	return nil
+}
+
+func (m *GetUserProfileResponse) GetPreviousProjects() []string {
+	if m != nil {
+		return m.PreviousProjects
+	}
+	return nil
+}
+
+type UpdateUserProfileRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	ProfileImage         string   `protobuf:"bytes,2,opt,name=profile_image,json=profileImage,proto3" json:"profile_image,omitempty"`
+	ProfileDescription   string   `protobuf:"bytes,3,opt,name=profile_description,json=profileDescription,proto3" json:"profile_description,omitempty"`
+	CurrentProjects      []string `protobuf:"bytes,4,rep,name=current_projects,json=currentProjects,proto3" json:"current_projects,omitempty"`
+	PreviousProjects     []string `protobuf:"bytes,5,rep,name=previous_projects,json=previousProjects,proto3" json:"previous_projects,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateUserProfileRequest) Reset()         { *m = UpdateUserProfileRequest{} }
+func (m *UpdateUserProfileRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateUserProfileRequest) ProtoMessage()    {}
+func (*UpdateUserProfileRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ef67784dca69381c, []int{2}
+}
+
+func (m *UpdateUserProfileRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateUserProfileRequest.Unmarshal(m, b)
+}
+func (m *UpdateUserProfileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateUserProfileRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateUserProfileRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateUserProfileRequest.Merge(m, src)
+}
+func (m *UpdateUserProfileRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateUserProfileRequest.Size(m)
+}
+func (m *UpdateUserProfileRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateUserProfileRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateUserProfileRequest proto.InternalMessageInfo
+
+func (m *UpdateUserProfileRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (m *UpdateUserProfileRequest) GetProfileImage() string {
+	if m != nil {
+		return m.ProfileImage
+	}
+	return ""
+}
+
+func (m *UpdateUserProfileRequest) GetProfileDescription() string {
+	if m != nil {
+		return m.ProfileDescription
+	}
+	return ""
+}
+
+func (m *UpdateUserProfileRequest) GetCurrentProjects() []string {
+	if m != nil {
+		return m.CurrentProjects
+	}
+	return nil
+}
+
+func (m *UpdateUserProfileRequest) GetPreviousProjects() []string {
+	if m != nil {
+		return m.PreviousProjects
+	}
+	return nil
+}
+
+type UpdateUserProfileResponse struct {
+	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateUserProfileResponse) Reset()         { *m = UpdateUserProfileResponse{} }
+func (m *UpdateUserProfileResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateUserProfileResponse) ProtoMessage()    {}
+func (*UpdateUserProfileResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ef67784dca69381c, []int{3}
+}
+
+func (m *UpdateUserProfileResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateUserProfileResponse.Unmarshal(m, b)
+}
+func (m *UpdateUserProfileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateUserProfileResponse.Marshal(b, m, deterministic)
+}
+func (m *UpdateUserProfileResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateUserProfileResponse.Merge(m, src)
+}
+func (m *UpdateUserProfileResponse) XXX_Size() int {
+	return xxx_messageInfo_UpdateUserProfileResponse.Size(m)
+}
+func (m *UpdateUserProfileResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateUserProfileResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateUserProfileResponse proto.InternalMessageInfo
+
+func (m *UpdateUserProfileResponse) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
 func init() {
-	proto.RegisterType((*CreatePasswordRequest)(nil), "user_profile.CreatePasswordRequest")
-	proto.RegisterType((*CreatePasswordResponse)(nil), "user_profile.CreatePasswordResponse")
-	proto.RegisterType((*UserProfileRequest)(nil), "user_profile.UserProfileRequest")
-	proto.RegisterType((*UserProfileResponse)(nil), "user_profile.UserProfileResponse")
-	proto.RegisterType((*UserProfileResponse_SecretCode)(nil), "user_profile.UserProfileResponse.SecretCode")
-	proto.RegisterType((*UserProfileResponse_Projects)(nil), "user_profile.UserProfileResponse.Projects")
+	proto.RegisterType((*GetUserProfileRequest)(nil), "user_profile.GetUserProfileRequest")
+	proto.RegisterType((*GetUserProfileResponse)(nil), "user_profile.GetUserProfileResponse")
+	proto.RegisterType((*UpdateUserProfileRequest)(nil), "user_profile.UpdateUserProfileRequest")
+	proto.RegisterType((*UpdateUserProfileResponse)(nil), "user_profile.UpdateUserProfileResponse")
 }
 
 func init() { proto.RegisterFile("protos/user_profile.proto", fileDescriptor_ef67784dca69381c) }
 
 var fileDescriptor_ef67784dca69381c = []byte{
-	// 375 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x52, 0xcd, 0x6e, 0xda, 0x40,
-	0x10, 0x96, 0x0d, 0xb4, 0x66, 0x40, 0x54, 0xdd, 0xd2, 0xd6, 0xb5, 0x90, 0x4a, 0xdd, 0x1e, 0x10,
-	0x95, 0xb0, 0x44, 0xa5, 0x1e, 0xb8, 0x55, 0x9c, 0xb8, 0x54, 0x96, 0xab, 0x9e, 0xd1, 0xc6, 0x1e,
-	0x90, 0x13, 0xe3, 0x75, 0x76, 0xd6, 0xe1, 0x1a, 0xe5, 0x15, 0xf2, 0x68, 0x79, 0x85, 0x3c, 0x43,
-	0xce, 0x11, 0x6b, 0x3b, 0xe0, 0xfc, 0x90, 0xdb, 0x7e, 0x33, 0xdf, 0x7e, 0x33, 0xf3, 0xcd, 0xc0,
-	0x97, 0x4c, 0x0a, 0x25, 0xc8, 0xcb, 0x09, 0xe5, 0x32, 0x93, 0x62, 0x15, 0x27, 0x38, 0xd1, 0x31,
-	0xd6, 0x3d, 0x8c, 0x39, 0x83, 0xb5, 0x10, 0xeb, 0x04, 0x3d, 0x9e, 0xc5, 0x1e, 0x4f, 0x53, 0xa1,
-	0xb8, 0x8a, 0x45, 0x4a, 0x05, 0xd7, 0x5d, 0xc0, 0xc7, 0xb9, 0x44, 0xae, 0xd0, 0xe7, 0x44, 0x5b,
-	0x21, 0xa3, 0x00, 0xcf, 0x73, 0x24, 0xc5, 0xfa, 0xd0, 0xc2, 0x0d, 0x8f, 0x13, 0xdb, 0x18, 0x1a,
-	0xa3, 0x76, 0x50, 0x00, 0xe6, 0x80, 0x95, 0x95, 0x44, 0xdb, 0xd4, 0x89, 0x07, 0xec, 0x4e, 0xe1,
-	0xd3, 0x63, 0x29, 0xca, 0x44, 0x4a, 0xc8, 0x6c, 0x78, 0x4b, 0x79, 0x18, 0x22, 0x91, 0x56, 0xb3,
-	0x82, 0x0a, 0xba, 0x63, 0x60, 0xff, 0x09, 0xa5, 0x5f, 0xf4, 0x7a, 0xb4, 0xb6, 0x7b, 0x69, 0xc2,
-	0x87, 0x1a, 0xf9, 0x35, 0xf5, 0xbd, 0x8e, 0xf9, 0xd2, 0x0c, 0x8d, 0xfa, 0x0c, 0x6c, 0x00, 0xed,
-	0x55, 0x2c, 0x49, 0xfd, 0xe5, 0x1b, 0xb4, 0x9b, 0x3a, 0xb9, 0x0f, 0xec, 0x7e, 0x26, 0xbc, 0x4c,
-	0xb6, 0x8a, 0x9f, 0x15, 0x76, 0x7e, 0x03, 0xfc, 0xc3, 0x50, 0xa2, 0x9a, 0x8b, 0x08, 0x77, 0x95,
-	0x2f, 0x78, 0x92, 0x63, 0x35, 0x81, 0x06, 0x8c, 0x41, 0x93, 0x30, 0x55, 0xba, 0x1d, 0x2b, 0xd0,
-	0x6f, 0xe7, 0x27, 0x58, 0xbe, 0x14, 0xa7, 0x18, 0x2a, 0x62, 0x5f, 0xa1, 0x93, 0x15, 0xef, 0x65,
-	0x1c, 0xed, 0xa6, 0x69, 0x8c, 0xda, 0x01, 0x94, 0xa1, 0x45, 0x44, 0xd3, 0x3b, 0x03, 0x7a, 0x07,
-	0x16, 0xfc, 0xf1, 0x17, 0x6c, 0x0b, 0xbd, 0xba, 0xeb, 0xec, 0xfb, 0xa4, 0x76, 0x13, 0xcf, 0xae,
-	0xd7, 0xf9, 0x71, 0x9c, 0x54, 0x58, 0xeb, 0x3a, 0x57, 0x37, 0xb7, 0xd7, 0x66, 0xdf, 0x7d, 0xe7,
-	0x85, 0x9a, 0x50, 0xf9, 0x34, 0x33, 0xc6, 0xec, 0x0c, 0x3a, 0x07, 0xad, 0xb0, 0x61, 0x5d, 0xf0,
-	0xe9, 0x56, 0x9d, 0x6f, 0x47, 0x18, 0x65, 0xbd, 0xcf, 0xba, 0xde, 0x7b, 0xb7, 0xab, 0xcf, 0xba,
-	0x64, 0xce, 0x8c, 0xf1, 0xc9, 0x1b, 0x7d, 0xad, 0xbf, 0xee, 0x03, 0x00, 0x00, 0xff, 0xff, 0x89,
-	0xaa, 0xd3, 0xb2, 0xf6, 0x02, 0x00, 0x00,
+	// 382 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x93, 0x3d, 0x4f, 0xe3, 0x40,
+	0x10, 0x86, 0x65, 0xe7, 0x72, 0x1f, 0xa3, 0x5c, 0x3e, 0xf6, 0x72, 0x77, 0x8e, 0x75, 0x27, 0x45,
+	0x0e, 0xe2, 0x53, 0xc4, 0x12, 0x88, 0x86, 0x0e, 0x09, 0x09, 0xa5, 0x8b, 0x22, 0xa5, 0x8e, 0x8c,
+	0x33, 0x58, 0x46, 0x89, 0xd7, 0xec, 0xac, 0xa1, 0x87, 0x1f, 0x40, 0xc1, 0x4f, 0xa3, 0xa7, 0xa2,
+	0xe2, 0x57, 0x20, 0xaf, 0xd7, 0x4a, 0x4c, 0x12, 0x48, 0x43, 0xb9, 0xef, 0x3c, 0xb3, 0x7e, 0xdf,
+	0xd9, 0x31, 0xb4, 0x62, 0xc1, 0x25, 0x27, 0x37, 0x21, 0x14, 0xa3, 0x58, 0xf0, 0x8b, 0x70, 0x82,
+	0x5d, 0xa5, 0xb1, 0xca, 0xbc, 0x66, 0xff, 0x0b, 0x38, 0x0f, 0x26, 0xe8, 0x7a, 0x71, 0xe8, 0x7a,
+	0x51, 0xc4, 0xa5, 0x27, 0x43, 0x1e, 0x51, 0xc6, 0x3a, 0xfb, 0xf0, 0xfb, 0x0c, 0xe5, 0x90, 0x50,
+	0xf4, 0x33, 0x7e, 0x80, 0x57, 0x09, 0x92, 0x64, 0x4d, 0x28, 0xe3, 0xd4, 0x0b, 0x27, 0x96, 0xd1,
+	0x36, 0xb6, 0x7f, 0x0c, 0xb2, 0x83, 0xf3, 0x62, 0xc0, 0x9f, 0xb7, 0x3c, 0xc5, 0x3c, 0x22, 0x64,
+	0x1d, 0xf8, 0xa9, 0x3f, 0x39, 0x0a, 0xa7, 0x5e, 0x80, 0xba, 0xb1, 0xa2, 0xc5, 0x5e, 0xaa, 0x31,
+	0x17, 0x7e, 0xe5, 0xd0, 0x18, 0xc9, 0x17, 0x61, 0x9c, 0x9a, 0xb1, 0x4c, 0x85, 0x32, 0x5d, 0x3a,
+	0x9d, 0x55, 0x98, 0x03, 0x15, 0x8c, 0xc6, 0x5c, 0x10, 0x4e, 0x31, 0x92, 0x64, 0x95, 0xda, 0xa5,
+	0xf4, 0xd2, 0x79, 0x8d, 0xed, 0x40, 0xdd, 0x4f, 0x84, 0xc0, 0x48, 0xa6, 0xa1, 0x2f, 0xd1, 0x97,
+	0x64, 0x7d, 0x51, 0x5c, 0x4d, 0xeb, 0x7d, 0x2d, 0xb3, 0x3d, 0x68, 0xc4, 0x02, 0xaf, 0x43, 0x9e,
+	0xd0, 0x8c, 0x2d, 0x2b, 0xb6, 0x9e, 0x17, 0x72, 0xd8, 0x79, 0x32, 0xc0, 0x1a, 0xc6, 0x63, 0x4f,
+	0xe2, 0xba, 0xf3, 0x59, 0x1c, 0x82, 0xb9, 0xfe, 0x10, 0x4a, 0x2b, 0x87, 0xf0, 0x59, 0x01, 0x8f,
+	0xa0, 0xb5, 0x24, 0x9f, 0x7e, 0x4f, 0x0b, 0xbe, 0x51, 0xe2, 0xfb, 0x48, 0xa4, 0x22, 0x7e, 0x1f,
+	0xe4, 0xc7, 0x83, 0x7b, 0x13, 0xaa, 0x73, 0x1d, 0x27, 0xfd, 0x1e, 0xbb, 0x81, 0x6a, 0x71, 0x2d,
+	0x58, 0xa7, 0x5b, 0xd8, 0xcc, 0xa5, 0x4b, 0x66, 0x6f, 0xbc, 0x0f, 0x65, 0x4e, 0x1c, 0xfb, 0xf6,
+	0xf1, 0xf9, 0xc1, 0x6c, 0x3a, 0x35, 0x37, 0x40, 0x99, 0x36, 0x68, 0xfe, 0xd8, 0xd8, 0x65, 0x77,
+	0x06, 0x34, 0x16, 0x32, 0xb0, 0xcd, 0xe2, 0xbd, 0xab, 0x1e, 0xd1, 0xde, 0xfa, 0x90, 0xd3, 0x16,
+	0xfe, 0x2b, 0x0b, 0x7f, 0x1d, 0xe6, 0x26, 0x8a, 0x29, 0xba, 0x38, 0xff, 0xaa, 0x7e, 0xa6, 0xc3,
+	0xd7, 0x00, 0x00, 0x00, 0xff, 0xff, 0x47, 0x9b, 0x49, 0x99, 0x95, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -356,8 +292,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserProfileAPIClient interface {
-	CreatePassword(ctx context.Context, in *CreatePasswordRequest, opts ...grpc.CallOption) (*CreatePasswordResponse, error)
-	UserProfile(ctx context.Context, in *UserProfileRequest, opts ...grpc.CallOption) (*UserProfileResponse, error)
+	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*GetUserProfileResponse, error)
+	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UpdateUserProfileResponse, error)
 }
 
 type userProfileAPIClient struct {
@@ -368,18 +304,18 @@ func NewUserProfileAPIClient(cc *grpc.ClientConn) UserProfileAPIClient {
 	return &userProfileAPIClient{cc}
 }
 
-func (c *userProfileAPIClient) CreatePassword(ctx context.Context, in *CreatePasswordRequest, opts ...grpc.CallOption) (*CreatePasswordResponse, error) {
-	out := new(CreatePasswordResponse)
-	err := c.cc.Invoke(ctx, "/user_profile.UserProfileAPI/CreatePassword", in, out, opts...)
+func (c *userProfileAPIClient) GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*GetUserProfileResponse, error) {
+	out := new(GetUserProfileResponse)
+	err := c.cc.Invoke(ctx, "/user_profile.UserProfileAPI/GetUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userProfileAPIClient) UserProfile(ctx context.Context, in *UserProfileRequest, opts ...grpc.CallOption) (*UserProfileResponse, error) {
-	out := new(UserProfileResponse)
-	err := c.cc.Invoke(ctx, "/user_profile.UserProfileAPI/UserProfile", in, out, opts...)
+func (c *userProfileAPIClient) UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UpdateUserProfileResponse, error) {
+	out := new(UpdateUserProfileResponse)
+	err := c.cc.Invoke(ctx, "/user_profile.UserProfileAPI/UpdateUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -388,46 +324,46 @@ func (c *userProfileAPIClient) UserProfile(ctx context.Context, in *UserProfileR
 
 // UserProfileAPIServer is the server API for UserProfileAPI service.
 type UserProfileAPIServer interface {
-	CreatePassword(context.Context, *CreatePasswordRequest) (*CreatePasswordResponse, error)
-	UserProfile(context.Context, *UserProfileRequest) (*UserProfileResponse, error)
+	GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error)
+	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UpdateUserProfileResponse, error)
 }
 
 func RegisterUserProfileAPIServer(s *grpc.Server, srv UserProfileAPIServer) {
 	s.RegisterService(&_UserProfileAPI_serviceDesc, srv)
 }
 
-func _UserProfileAPI_CreatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePasswordRequest)
+func _UserProfileAPI_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserProfileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserProfileAPIServer).CreatePassword(ctx, in)
+		return srv.(UserProfileAPIServer).GetUserProfile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_profile.UserProfileAPI/CreatePassword",
+		FullMethod: "/user_profile.UserProfileAPI/GetUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileAPIServer).CreatePassword(ctx, req.(*CreatePasswordRequest))
+		return srv.(UserProfileAPIServer).GetUserProfile(ctx, req.(*GetUserProfileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileAPI_UserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserProfileRequest)
+func _UserProfileAPI_UpdateUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserProfileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserProfileAPIServer).UserProfile(ctx, in)
+		return srv.(UserProfileAPIServer).UpdateUserProfile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user_profile.UserProfileAPI/UserProfile",
+		FullMethod: "/user_profile.UserProfileAPI/UpdateUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileAPIServer).UserProfile(ctx, req.(*UserProfileRequest))
+		return srv.(UserProfileAPIServer).UpdateUserProfile(ctx, req.(*UpdateUserProfileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -437,12 +373,12 @@ var _UserProfileAPI_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserProfileAPIServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreatePassword",
-			Handler:    _UserProfileAPI_CreatePassword_Handler,
+			MethodName: "GetUserProfile",
+			Handler:    _UserProfileAPI_GetUserProfile_Handler,
 		},
 		{
-			MethodName: "UserProfile",
-			Handler:    _UserProfileAPI_UserProfile_Handler,
+			MethodName: "UpdateUserProfile",
+			Handler:    _UserProfileAPI_UpdateUserProfile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

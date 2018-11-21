@@ -57,7 +57,7 @@ func startGRPC() error {
 	defer m.Close()
 	log.Println("Connected to the MongoDB Server.")
 
-	DB = &mongo{m.DB("tea").C("users")} //change collection to Users
+	DB = &mongo{m.DB("tea").C("users")}
 
 	// Host grpc server
 	listen, err := net.Listen("tcp", "127.0.0.1:50052")
@@ -97,22 +97,26 @@ func startHTTP() error {
 	return http.ListenAndServe(":"+herokuPort, mux)
 }
 
-func (s *server) CreatePassword(ctx context.Context, crPsswdReq *pb.CreatePasswordRequest) (*pb.CreatePasswordResponse, error) {
-	err := DB.Operation.Update(
-		bson.M{"email": (*crPsswdReq).Email},
-		bson.M{"$set": bson.M{"password": (*crPsswdReq).Password}})
+func (s *server) GetUserProfile(ctx context.Context, request *pb.GetUserProfileRequest) (*pb.GetUserProfileResponse, error) {
+	var response pb.GetUserProfileResponse
+	err := DB.Operation.Find(bson.M{"email": request.Email}).One(&response)
 	if err != nil {
-		return &pb.CreatePasswordResponse{Success: false}, err
+		return nil, err
 	}
-	return &pb.CreatePasswordResponse{Success: true}, nil
+
+	return &response, nil
 }
 
-func (s *server) UserProfile(ctx context.Context, usrProfReq *pb.UserProfileRequest) (*pb.UserProfileResponse, error) {
-	userProfile := &pb.UserProfileResponse{}
-	err := DB.Operation.Find(bson.M{"email": (*usrProfReq).Email}).One(userProfile)
+func (s *server) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserProfileRequest) (*pb.UpdateUserProfileResponse, error) {
+	find := bson.M{"email": request.Email}
+	update := bson.M{"$set": bson.M{"profile_image": request.ProfileImage, "profile_description": request.ProfileDescription, "current_projects": request.CurrentProjects, "previous_projects": request.PreviousProjects}}
+
+	err := DB.Operation.Update(find, update)
 	if err != nil {
-		return &pb.UserProfileResponse{Success: false}, err
+		var result pb.UpdateUserProfileResponse
+		result.Success = true
+		return &result, nil
 	}
 
-	return userProfile, nil
+	return &pb.UpdateUserProfileResponse{Success: true}, nil
 }

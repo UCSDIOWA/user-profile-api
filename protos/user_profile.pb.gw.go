@@ -28,28 +28,28 @@ var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-func request_UserProfileAPI_CreatePassword_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfileAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreatePasswordRequest
+func request_UserProfileAPI_GetUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfileAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetUserProfileRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.CreatePassword(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetUserProfile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func request_UserProfileAPI_UserProfile_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfileAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserProfileRequest
+func request_UserProfileAPI_UpdateUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfileAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateUserProfileRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.UserProfile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UpdateUserProfile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
@@ -92,7 +92,7 @@ func RegisterUserProfileAPIHandler(ctx context.Context, mux *runtime.ServeMux, c
 // "UserProfileAPIClient" to call the correct interceptors.
 func RegisterUserProfileAPIHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserProfileAPIClient) error {
 
-	mux.Handle("POST", pattern_UserProfileAPI_CreatePassword_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserProfileAPI_GetUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -110,18 +110,18 @@ func RegisterUserProfileAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UserProfileAPI_CreatePassword_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserProfileAPI_GetUserProfile_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_UserProfileAPI_CreatePassword_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserProfileAPI_GetUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_UserProfileAPI_UserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserProfileAPI_UpdateUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -139,14 +139,14 @@ func RegisterUserProfileAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UserProfileAPI_UserProfile_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserProfileAPI_UpdateUserProfile_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_UserProfileAPI_UserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserProfileAPI_UpdateUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -154,13 +154,13 @@ func RegisterUserProfileAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_UserProfileAPI_CreatePassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"createpassword"}, ""))
+	pattern_UserProfileAPI_GetUserProfile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"getuserprofile"}, ""))
 
-	pattern_UserProfileAPI_UserProfile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"userprofile"}, ""))
+	pattern_UserProfileAPI_UpdateUserProfile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"updateuserprofile"}, ""))
 )
 
 var (
-	forward_UserProfileAPI_CreatePassword_0 = runtime.ForwardResponseMessage
+	forward_UserProfileAPI_GetUserProfile_0 = runtime.ForwardResponseMessage
 
-	forward_UserProfileAPI_UserProfile_0 = runtime.ForwardResponseMessage
+	forward_UserProfileAPI_UpdateUserProfile_0 = runtime.ForwardResponseMessage
 )
