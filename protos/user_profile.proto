@@ -5,45 +5,41 @@ package user_profile;
 import "google/api/annotations.proto";
 
 service UserProfileAPI {
-    rpc CreatePassword (CreatePasswordRequest) returns (CreatePasswordResponse) {
+    rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {
         option (google.api.http) = {
-            post: "/createpassword"
+            post: "/getuserprofile"
             body: "*"
         };
     }
 
-    rpc UserProfile (UserProfileRequest) returns (UserProfileResponse) {
+    rpc UpdateUserProfile (UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {
         option (google.api.http) = {
-            post: "/userprofile"
+            post: "/updateuserprofile"
             body: "*"
         };
     }
 }
 
-message CreatePasswordRequest {
-    string email = 1;
-    string password = 2;
-}
-
-message CreatePasswordResponse {
-    bool success = 1;
-}
-
-message UserProfileRequest {
+message GetUserProfileRequest {
     string email = 1;
 }
 
-message UserProfileResponse {
+message GetUserProfileResponse {
+    string profile_image = 1;
+    string profile_description = 2;
+    repeated string endorsements = 3;
+    repeated string current_projects = 4;
+    repeated string previous_projects = 5;
+}
+
+message UpdateUserProfileRequest {
+    string email = 1;
+    string profile_image = 2;
+    string profile_description = 3;
+    repeated string current_projects = 4;
+    repeated string previous_projects = 5; 
+}
+
+message UpdateUserProfileResponse {
     bool success = 1;
-    string email = 2;
-    string password = 3;
-    string firstName = 4;
-    string lastName = 5;
-    message SecretCode {
-        string value = 1;
-        bool sent = 2;
-    }
-    message Projects {
-        repeated string project_ids = 1;
-    }
 }
