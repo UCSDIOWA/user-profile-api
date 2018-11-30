@@ -25,19 +25,20 @@ message GetUserProfileRequest {
 }
 
 message GetUserProfileResponse {
-    string profile_image = 1;
-    string profile_description = 2;
+    string profileimage = 1;
+    string profiledescription = 2;
     repeated string endorsements = 3;
-    repeated string current_projects = 4;
-    repeated string previous_projects = 5;
+    repeated string currentprojects = 4;
+    repeated string previousprojects = 5;
+    // project_invites > [project_ids]
 }
 
 message UpdateUserProfileRequest {
     string email = 1;
-    string profile_image = 2;
-    string profile_description = 3;
-    repeated string current_projects = 4;
-    repeated string previous_projects = 5; 
+    string profileimage = 2;
+    string profiledescription = 3;
+    repeated string currentprojects = 4;
+    repeated string previousprojects = 5; 
 }
 
 message UpdateUserProfileResponse {

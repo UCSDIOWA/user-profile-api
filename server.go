@@ -23,11 +23,11 @@ type mongo struct {
 }
 
 type getUserProfileResponseStruct struct {
-	ProfileImage       string   `json:"profile_image" bson:"profile_image"`
-	ProfileDescription string   `json:"profile_description" bson:"profile_description"`
+	ProfileImage       string   `json:"profileimage" bson:"profileimage"`
+	ProfileDescription string   `json:"profiledescription" bson:"profiledescription"`
 	Endorsements       []string `json:"endorsements" bson:"endorsements"`
-	CurrentProjects    []string `json:"current_projects" bson:"current_projects"`
-	PreviousProjects   []string `json:"previous_projects" bson:"previous_projects"`
+	CurrentProjects    []string `json:"currentprojects" bson:"currentprojects"`
+	PreviousProjects   []string `json:"previousprojects" bson:"previousprojects"`
 }
 
 // DB is a pointer to mongo struct
@@ -112,18 +112,18 @@ func (s *server) GetUserProfile(ctx context.Context, request *pb.GetUserProfileR
 	if err != nil {
 		return nil, err
 	}
-	response.ProfileImage = responseStruct.ProfileImage
-	response.ProfileDescription = responseStruct.ProfileDescription
+	response.Profileimage = responseStruct.ProfileImage
+	response.Profiledescription = responseStruct.ProfileDescription
 	response.Endorsements = responseStruct.Endorsements
-	response.CurrentProjects = responseStruct.CurrentProjects
-	response.PreviousProjects = responseStruct.PreviousProjects
+	response.Currentprojects = responseStruct.CurrentProjects
+	response.Previousprojects = responseStruct.PreviousProjects
 
 	return &response, nil
 }
 
 func (s *server) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserProfileRequest) (*pb.UpdateUserProfileResponse, error) {
 	find := bson.M{"email": request.Email}
-	update := bson.M{"$set": bson.M{"profile_image": request.ProfileImage, "profile_description": request.ProfileDescription, "current_projects": request.CurrentProjects, "previous_projects": request.PreviousProjects}}
+	update := bson.M{"$set": bson.M{"profileimage": request.Profileimage, "profiledescription": request.Profiledescription, "currentprojects": request.Currentprojects, "previousprojects": request.Previousprojects}}
 
 	err := DB.Operation.Update(find, update)
 	if err != nil {
