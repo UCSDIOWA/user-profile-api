@@ -13,6 +13,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 )
 
@@ -89,20 +90,29 @@ func startHTTP() error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	mux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterUserProfileAPIHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
+	err := pb.RegisterUserProfileAPIHandlerFromEndpoint(ctx, gwmux, *echoEndpoint, opts)
 	if err != nil {
 		return err
 	}
 	log.Println("Listening on port 8080")
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/.*", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST")
+	})
+	mux.Handle("/", gwmux)
+	handler := cors.Default().Handler(mux)
 
 	herokuPort := os.Getenv("PORT")
 	if herokuPort == "" {
 		herokuPort = "8080"
 	}
 
-	return http.ListenAndServe(":"+herokuPort, mux)
+	return http.ListenAndServe(":"+herokuPort, handler)
 }
 
 func (s *server) GetUserProfile(ctx context.Context, request *pb.GetUserProfileRequest) (*pb.GetUserProfileResponse, error) {
