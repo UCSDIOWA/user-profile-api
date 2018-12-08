@@ -21,5 +21,5 @@ Each endpoint expects to receive specific fields to process a request. The follo
 
 | Endpoint | Request | Response |
 |:--------:|---------|----------|
-| getuserprofile | string email; | string profileimage = 1;<br>string profiledescription = 2;<br>repeated string endorsements = 3;<br>repeated string currentprojects = 4;<br>repeated string previousprojects = 5;|
-| updateuserprofile | string email = 1;<br>string profileimage = 2;<br>string profiledescription = 3;<br>repeated string currentprojects = 4;<br>repeated string previousprojects = 5;| bool success; |
+| getuserprofile | string email = 1; | string profileimage = 1;<br>string profiledescription = 2;<br>repeated string endorsements = 3;<br>repeated string currentprojects = 4;<br>repeated string previousprojects = 5;|
+| updateuserprofile | string email = 1;<br>string profileimage = 2;<br>string profiledescription = 3;<br>repeated string currentprojects = 4;<br>repeated string previousprojects = 5;| bool success = 1; |
